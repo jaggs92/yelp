@@ -58,4 +58,16 @@ feature 'restaurants' do
       expect(current_path).to eq '/restaurants'
     end
   end
+
+  context 'deleting restaurants' do
+
+    before { Restaurant.create name: "Nando's", description: "Super Cheeky" }
+
+    scenario 'removes a restaurant when a user clicks a delete link' do
+      visit '/restaurants'
+      click_link "Delete Nando's"
+      expect(page).not_to have_content "Nando's"
+      expect(page).to have_content 'Restaurant deleted successfully'
+    end
+  end
 end
