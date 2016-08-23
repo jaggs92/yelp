@@ -4,9 +4,12 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-resources :restaurants
+resources :restaurants do
+  get 'new'
+end
 
-get 'restaurants' => 'restaurants#index'
+
+# get 'restaurants' => 'restaurants#index'
 
 end
   # Example of regular route:
