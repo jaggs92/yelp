@@ -33,14 +33,29 @@ feature 'restaurants' do
   end
 
   context 'viewing restaurants' do
-
-    let!(:nandos){ Restaurant.create(name:"Nando's") }
+    let!(:nandos) { Restaurant.create(name: "Nando's") }
 
     scenario 'lets a user view a restaurant' do
       visit '/restaurants'
       click_link "Nando's"
       expect(page).to have_content "Nando's"
       expect(current_path).to eq "/restaurants/#{nandos.id}"
+    end
+  end
+
+  context 'editing restaurants' do
+    before { Restaurant.create name: "Nando's",
+                        description: "So cheeky, so Nando's"}
+
+    scenario 'let an user edit a restaurants' do
+      visit '/restaurants'
+      click_link "Edit Nando's"
+      fill_in 'Name', with: "Cheeky Nando's"
+      fill_in 'Description', with: "So cheeky, so Nando's"
+      click_button 'Update Restaurant'
+      expect(page).to have_content "Cheeky Nando's"
+      expect(page).to have_content "So cheeky, so Nando's"
+      expect(current_path).to eq '/restaurants'
     end
   end
 end
