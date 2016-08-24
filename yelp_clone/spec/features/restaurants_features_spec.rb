@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'web_helper'
 
 feature 'restaurants' do
   context 'no restaurants have been added' do
@@ -23,6 +24,7 @@ feature 'restaurants' do
 
   context 'creating restaurants' do
     scenario 'should be able to add a restaurant' do
+      sign_up
       visit '/restaurants'
       click_link "Add a restaurant"
       fill_in "Name", with: "KFC"
@@ -33,6 +35,7 @@ feature 'restaurants' do
 
     context 'an invalid restaurant' do
       it 'does not let you submit a name that is too short' do
+        sign_up
         visit '/restaurants'
         click_link 'Add a restaurant'
         fill_in 'Name', with: 'kf'
@@ -58,6 +61,7 @@ feature 'restaurants' do
     before { Restaurant.create(name: 'KFC', description: 'Mmmm, love that skin') }
 
     scenario 'lets users edit restaurants' do
+      sign_up
       visit '/restaurants'
       click_link "Edit KFC"
       fill_in 'Name', with: 'Kentucky Fried Chicken'
@@ -73,6 +77,7 @@ feature 'restaurants' do
     before { Restaurant.create(name: 'KFC', description: 'Deep fried goodness')}
 
     scenario 'removes a restaurant when a user clicks a link' do
+      sign_up
       visit '/restaurants'
       click_link 'Delete KFC'
       expect(page).not_to have_content 'KFC'
