@@ -6,11 +6,11 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-resources :restaurants do
-  resources :reviews
-end
+  resources :restaurants do
+    resources :reviews
+  end
 
-root "restaurants#index"
+  root "restaurants#index"
 
 
 # get 'restaurants' => 'restaurants#index'
