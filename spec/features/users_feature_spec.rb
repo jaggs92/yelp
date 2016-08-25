@@ -40,11 +40,5 @@ feature 'user can sign in and out' do
       expect(page).not_to have_link "Sign in"
       expect(page).not_to have_link "Sign up"
     end
-
-    it "can only edit restaurants which they've created" do
-      # NEED TO FIND OUT HOW TO LINK USERS AND RESTAURANTS
-    end
-
-
   end
 end

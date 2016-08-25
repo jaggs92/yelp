@@ -29,7 +29,6 @@ feature 'restaurants' do
       click_link "Add a restaurant"
       fill_in "Name", with: "KFC"
       click_button "Create Restaurant"
-      require 'pry'; binding.pry
       expect(current_path).to eq "/restaurants"
       expect(page).to have_content "KFC"
     end
@@ -59,31 +58,40 @@ feature 'restaurants' do
   end
 
   context 'editing restaurants' do
-    before { Restaurant.create(name: 'KFC', description: 'Mmmm, love that skin') }
-
     scenario 'lets users edit restaurants' do
-      sign_up
-      visit '/restaurants'
-      click_link "Edit KFC"
-      fill_in 'Name', with: 'Kentucky Fried Chicken'
-      fill_in 'Description', with: 'Deep fried goodness'
+      create_restaurant
+      click_link "Edit Nando's"
+      fill_in 'Name', with: "Nando's"
+      fill_in 'Description', with: 'Extra cheeky!'
       click_button 'Update Restaurant'
-      expect(page).to have_content 'Kentucky Fried Chicken'
-      expect(page).to have_content 'Deep fried goodness'
+      expect(page).to have_content "Nando's"
+      expect(page).to have_content 'Extra cheeky!'
       expect(current_path).to eq '/restaurants'
+    end
+
+    scenario "can't edit restaurants that you didn't create" do
+      create_restaurant
+      click_link "Sign out"
+      sign_up(email: "nope@email.com")
+      visit 'restaurants'
+      expect(page).not_to have_content("Edit Nando's")
     end
   end
 
   context 'deleting restaurants' do
-    before { Restaurant.create(name: 'KFC', description: 'Deep fried goodness')}
-
     scenario 'removes a restaurant when a user clicks a link' do
-      sign_up
-      visit '/restaurants'
-      click_link 'Delete KFC'
-      expect(page).not_to have_content 'KFC'
-      expect(page).to have_content 'Restaurant deleted successfully'
-    end
-  end
+     create_restaurant
+     click_link "Delete Nando's"
+     expect(page).not_to have_content "Nando's"
+     expect(page).to have_content 'Restaurant deleted successfully'
+   end
 
+   scenario 'you can only delete restaurants you created' do
+     create_restaurant
+     click_link "Sign out"
+     sign_up(email: "nope@email.com")
+     visit '/restaurants'
+     expect(page).not_to have_content("Delete Nando's")
+   end
+  end
 end

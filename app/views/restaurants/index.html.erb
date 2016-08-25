@@ -9,10 +9,12 @@
       <%= review.rating %>
       <br />
     <% end %>
-    <br />
-    <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %>
-    <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %>
     <%= link_to "Review #{restaurant.name}", new_restaurant_review_path(restaurant) %>
+    <% if restaurant.user == current_user %>
+    <br />
+      <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %>
+      <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %>
+    <% end %>
   <% end %>
 <% else %>
   <h1>No restaurants yet</h1>
